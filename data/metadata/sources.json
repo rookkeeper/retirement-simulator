@@ -1,0 +1,132 @@
+{
+  "dataset_version": "2026-09-01-v1",
+  "generated_at_utc": "2026-09-01T17:19:08.009333+00:00",
+  "frequency": "annual",
+  "return_unit": "decimal fraction",
+  "calendar": "calendar year",
+  "common_complete_range": {
+    "start_year": 1991,
+    "end_year": 2025,
+    "count": 35
+  },
+  "sources": {
+    "nyu-stern-histretSP": {
+      "publisher": "Aswath Damodaran, NYU Stern",
+      "url": "https://www.stern.nyu.edu/~adamodar/pc/datasets/histretSP.xls",
+      "source_page": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/histretSP.html",
+      "format": "Excel workbook",
+      "notes": "Annual U.S.-dollar returns; the workbook identifies the stock series as including dividends and the bond series as a 10-year Treasury return."
+    },
+    "ken-french-30-industry": {
+      "publisher": "Eugene F. Fama and Kenneth R. French",
+      "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/30_Industry_Portfolios_CSV.zip",
+      "source_page": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html",
+      "format": "CSV inside ZIP archive",
+      "notes": "Annual value-weighted industry returns; BusEq is used as the U.S. technology proxy."
+    },
+    "ken-french-developed-ex-us-3-factors": {
+      "publisher": "Eugene F. Fama and Kenneth R. French",
+      "url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/Developed_ex_US_3_Factors_CSV.zip",
+      "source_page": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html",
+      "format": "CSV inside ZIP archive",
+      "notes": "Annual Developed ex-U.S. factors in U.S. dollars; market total return is reconstructed as Mkt-RF + RF."
+    },
+    "fred-CPIAUCNS": {
+      "publisher": "Federal Reserve Bank of St. Louis (FRED), BLS CPI-U",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCNS",
+      "source_page": "https://fred.stlouisfed.org/series/CPIAUCNS",
+      "format": "CSV",
+      "notes": "Monthly, not-seasonally-adjusted CPI-U levels retained for an independent December-to-December inflation check."
+    }
+  },
+  "series": {
+    "usStocks": {
+      "source_id": "nyu-stern-histretSP",
+      "field": "S&P 500 (includes dividends)",
+      "transformation": "Convert percentage to decimal fraction.",
+      "total_return": true,
+      "coverage": {
+        "start_year": 1928,
+        "end_year": 2025
+      }
+    },
+    "usBonds": {
+      "source_id": "nyu-stern-histretSP",
+      "field": "US T. Bond (10-year)",
+      "transformation": "Convert percentage to decimal fraction.",
+      "total_return": true,
+      "coverage": {
+        "start_year": 1928,
+        "end_year": 2025
+      }
+    },
+    "international": {
+      "source_id": "ken-french-developed-ex-us-3-factors",
+      "field": "Mkt-RF + RF",
+      "transformation": "Add annual market excess return and risk-free return; convert percentage to decimal fraction.",
+      "total_return": true,
+      "coverage": {
+        "start_year": 1991,
+        "end_year": 2025
+      }
+    },
+    "cash": {
+      "source_id": "nyu-stern-histretSP",
+      "field": "3-month T.Bill",
+      "transformation": "Convert percentage to decimal fraction.",
+      "total_return": true,
+      "coverage": {
+        "start_year": 1928,
+        "end_year": 2025
+      }
+    },
+    "technology": {
+      "source_id": "ken-french-30-industry",
+      "field": "BusEq, value-weighted",
+      "transformation": "Select annual value-weighted BusEq return; convert percentage to decimal fraction.",
+      "total_return": true,
+      "coverage": {
+        "start_year": 1927,
+        "end_year": 2025
+      }
+    },
+    "inflation": {
+      "source_id": "nyu-stern-histretSP",
+      "field": "CPIAUCNS annual rate",
+      "transformation": "Convert percentage to decimal fraction; retain annual CPI rate.",
+      "total_return": false,
+      "coverage": {
+        "start_year": 1914,
+        "end_year": 2025
+      }
+    }
+  },
+  "inflation_cross_check": {
+    "source_id": "fred-CPIAUCNS",
+    "method": "December CPI divided by prior December CPI minus one",
+    "years_compared": 112,
+    "max_absolute_difference": 0.0005799947212499108
+  },
+  "raw_files": [
+    {
+      "path": "data/raw/nyu-stern/histretSP.xls",
+      "sha256": "28b8110916a15a4dcc11c87c6422510704608ddedcdfa67a1298abdc22e49c69",
+      "bytes": 527872
+    },
+    {
+      "path": "data/raw/ken-french/30_Industry_Portfolios_CSV.zip",
+      "sha256": "3400000668c51e7950003217d3cfec145e146a7b3c234c4be5f2a13c4912687c",
+      "bytes": 313734
+    },
+    {
+      "path": "data/raw/ken-french/Developed_ex_US_3_Factors_CSV.zip",
+      "sha256": "667f08ca63f578546b96183c14427f99cad54a0629a6b09a7495d01f05d35a68",
+      "bytes": 4968
+    },
+    {
+      "path": "data/raw/fred/CPIAUCNS.csv",
+      "sha256": "ff0e1a1bb2af9364c1975f373cbac514f4f537fea9515c83c8b6994e8aa9a8a1",
+      "bytes": 25055
+    }
+  ]
+}
